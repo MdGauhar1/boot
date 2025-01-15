@@ -14,6 +14,7 @@ import com.example.boot.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -36,6 +37,7 @@ public class OrderService {
 
 
     // Create a new order
+    @Transactional
     public ResponseEntity<?> createOrder(OrderRequest orderRequest) {
         // Find the user who is placing the order
         User user = userRepository.findById(orderRequest.getUserId()).orElseThrow(() -> new RuntimeException("User not found"));
@@ -84,4 +86,6 @@ public class OrderService {
         return ResponseEntity.ok(order);
     }
 }
+
+
 

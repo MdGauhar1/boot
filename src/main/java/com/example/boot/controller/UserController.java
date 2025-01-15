@@ -1,5 +1,6 @@
 package com.example.boot.controller;
 
+import com.example.boot.exception.ResourceNotFoundException;
 import com.example.boot.payload.LoginRequest;
 import com.example.boot.payload.RegisterRequest;
 import com.example.boot.service.UserService;
@@ -33,6 +34,7 @@ public class UserController {
     public ResponseEntity<?> getUserProfile(@PathVariable Long userId) {
         return userService.getUserProfile(userId);
     }
+
 }
 
 

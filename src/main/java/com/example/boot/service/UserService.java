@@ -4,6 +4,7 @@ package com.example.boot.service;
 import com.example.boot.config.JwtTokenProvider;
 import com.example.boot.entity.JwtResponse;
 import com.example.boot.entity.User;
+import com.example.boot.exception.ResourceNotFoundException;
 import com.example.boot.extra.CustomUserDetails;
 import com.example.boot.payload.LoginRequest;
 import com.example.boot.payload.RegisterRequest;
@@ -76,9 +77,9 @@ public class UserService {
 
     // Get user profile details
     public ResponseEntity<?> getUserProfile(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        User user = userRepository.findById(userId).orElseThrow(()->new ResourceNotFoundException("user with ID:"+userId+"not found"));
 
-        // Return user details (exclude password)
+        // Return user details (exclude password
         return ResponseEntity.ok(user);
     }
 }

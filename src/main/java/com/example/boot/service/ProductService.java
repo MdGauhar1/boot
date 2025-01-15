@@ -2,6 +2,7 @@ package com.example.boot.service;
 
 
 import com.example.boot.entity.Product;
+import com.example.boot.exception.ResourceNotFoundException;
 import com.example.boot.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public class ProductService {
 
     // Get a product by ID
     public ResponseEntity<?> getProductById(Long id) {
-        Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
+        Product product = productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("product with id " + id +" not found"));
         return ResponseEntity.ok(product);
     }
 

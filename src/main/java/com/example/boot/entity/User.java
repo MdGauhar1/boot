@@ -1,5 +1,7 @@
 package com.example.boot.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -12,11 +14,13 @@ public class User {
     private Long id;
 
     private String username;
+    @JsonIgnore
     private String password;
     private String email;
     private String role; // e.g. USER, ADMIN
 
     @OneToMany(mappedBy = "user")
+    @JsonManagedReference
     private List<Order> orders;
 
     // getters and setters
