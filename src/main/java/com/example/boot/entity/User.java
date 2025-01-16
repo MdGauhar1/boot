@@ -23,6 +23,11 @@ public class User {
     @JsonManagedReference
     private List<Order> orders;
 
+
+
+    @OneToMany(mappedBy = "user")
+    private List<Review> reviews;
+
     // getters and setters
 
     public Long getId() {

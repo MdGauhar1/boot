@@ -3,6 +3,7 @@ package com.example.boot.entity;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name = "products")
@@ -17,6 +18,11 @@ public class Product {
     private String description;
     private BigDecimal price;
     private int stockQuantity;
+
+
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Review> reviews;
 
     public Long getId() {
         return id;
