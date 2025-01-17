@@ -25,10 +25,17 @@ public class ReviewController {
         return ResponseEntity.status(HttpStatus.CREATED).body(review);
     }
 
+
     // Endpoint to get reviews for a product
     @GetMapping("/product/{productId}")
-    public ResponseEntity<List<Review>> getReviewsForProduct(@PathVariable Long productId) {
-        List<Review> reviews = reviewService.getReviewsForProduct(productId);
+    public ResponseEntity<List<ReviewDTO>> getReviewsForProduct(@PathVariable Long productId) {
+        List<ReviewDTO> reviews = reviewService.getReviewsForProduct(productId);
+        return ResponseEntity.ok(reviews);
+    }
+
+    @GetMapping("/users/{userId}")
+    public ResponseEntity<List<ReviewDTO>> getReviewsByUserId(@PathVariable Long userId) {
+        List<ReviewDTO> reviews = reviewService.getReviewsByUserId(userId);
         return ResponseEntity.ok(reviews);
     }
 }
