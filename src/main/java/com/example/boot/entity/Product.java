@@ -1,6 +1,7 @@
 package com.example.boot.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
@@ -20,6 +21,18 @@ public class Product {
     private int stockQuantity;
 
 
+    @ManyToOne
+    @JsonIgnoreProperties({"orders", "products", "reviews"})
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Review> reviews;

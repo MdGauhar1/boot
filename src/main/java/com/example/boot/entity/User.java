@@ -19,12 +19,17 @@ public class User {
     private String email;
     private String role; // e.g. USER, ADMIN
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     @JsonManagedReference
     private List<Order> orders;
 
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<Product> products;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Review> reviews;
 

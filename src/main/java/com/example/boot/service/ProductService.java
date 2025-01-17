@@ -2,9 +2,14 @@ package com.example.boot.service;
 
 
 import com.example.boot.entity.Product;
+import com.example.boot.entity.User;
 import com.example.boot.exception.ResourceNotFoundException;
 import com.example.boot.repository.ProductRepository;
+import com.example.boot.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.http.ResponseEntity;
 
@@ -16,9 +21,13 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     // Get all products
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+    public Page<Product> getAllProducts(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return productRepository.findAll(pageable);
     }
 
     // Get a product by ID
@@ -27,8 +36,16 @@ public class ProductService {
         return ResponseEntity.ok(product);
     }
 
+    public Page<Product> getProductByUserId(Long userId,int page,int size){
+        Pageable pageable = PageRequest.of(page,size);
+        return productRepository.findByUserId(userId,pageable);
+    }
+
     // Create a new product
     public ResponseEntity<?> createProduct(Product product) {
+        User user = userRepository.findById(product.getUser().getId())
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        product.setUser(user);
         productRepository.save(product);
         return ResponseEntity.ok("Product created successfully");
     }
@@ -48,6 +65,14 @@ public class ProductService {
     public ResponseEntity<?> deleteProduct(Long id) {
         productRepository.deleteById(id);
         return ResponseEntity.ok("Product deleted successfully");
+    }
+
+    public Page<Product> searchProducts(String name, Pageable pageable) {
+        Page<Product> products = productRepository.searchByName(name, pageable);
+        if (products.isEmpty()) {
+            throw new ResourceNotFoundException("No products found with name: " + name);
+        }
+        return products;
     }
 }
 
