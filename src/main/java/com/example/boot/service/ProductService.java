@@ -25,8 +25,12 @@ public class ProductService {
     private UserRepository userRepository;
 
     // Get all products
-    public Page<Product> getAllProducts(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
+//    public Page<Product> getAllProducts(int page, int size) {
+//        Pageable pageable = PageRequest.of(page, size);
+//        return productRepository.findAll(pageable);
+//    }
+    // Get all products with pagination and sorting
+    public Page<Product> getAllProducts(Pageable pageable) {
         return productRepository.findAll(pageable);
     }
 
